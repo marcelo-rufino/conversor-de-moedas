@@ -3,61 +3,21 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.sql.SQLOutput;
-import java.util.Scanner;
 
 public class ConversorMoedas {
-    public static void main(String[] args) throws IOException, InterruptedException {
-        Scanner leitura = new Scanner(System.in);
+    private int valor;
 
-        int opcao = 0;
-        String mensagemValor = "Digite o valor que deseja converter:";
-        double valor = 0;
+    public void converteMoeda(String from, String to, double valor) throws IOException, InterruptedException {
 
-        System.out.println("**************************************************\n");
-        System.out.println("""
-                            Seja bem-vindo(a) ao conversor de moedas.
-                            Escolha a opção desejada:
-                            
-                            1 - Real brasileiro -> Dólar
-                            2 - Dólar -> Real Brasileiro
-                            3 - Real brasileiro -> Euro
-                            4 - Euro -> Real brasileiro
-                            5 - Dólar -> Euro
-                            6 - Euro -> Dólar
-                            7 - Sair
-                            
-                            **************************************************
-                            """);
+        String url = "https://v6.exchangerate-api.com/v6/49c907000de240b0b7513f0d/pair/" + from + "/" + to + "/" + valor;
 
-        while (opcao != 7) {
-            opcao = leitura.nextInt();
-
-            if(opcao == 1) {
-                System.out.println(mensagemValor);
-
-            } else if (opcao == 2) {
-                System.out.println(mensagemValor);
-
-            } else if (opcao == 3) {
-                System.out.println(mensagemValor);
-
-            } else if (opcao == 4) {
-                System.out.println(mensagemValor);
-
-            } else if (opcao == 5) {
-                System.out.println(mensagemValor);
-
-            } else if (opcao == 6) {
-                System.out.println(mensagemValor);
-
-            }
-        }
-
-
-
-
-
-
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .build();
+        HttpResponse<String> response = client
+                .send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
     }
+
 }
